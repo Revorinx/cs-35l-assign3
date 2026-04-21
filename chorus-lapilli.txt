@@ -1,6 +1,15 @@
-1. Reworked the game rules so the board supports two phases: a placement phase where each player can place up to three pieces, and a movement phase that begins after all pieces have been placed
-2. Added helper functions to calculate a winner, convert board indexes into row and column coordinates, and check whether two squares are adjacent, so the movement rules could be enforced in one place
-3. Added movement validation so a player can only move one of their own pieces to an adjacent empty square, including diagonal movement
-4. Added the center-square restriction (if a player has a piece in the center square, that turn must either win immediately or move that center piece out of the center)
-5. Changed the board click behavior so the player can click one of their own pieces to select it during the movement phase and then click a legal destination square to complete the move
-6. Added a visual highlight for the selected piece and updated the status text so the game tells the player whether they should place, select, or move a piece
+1. Reworked the game flow from pure placement tic-tac-toe into Terni Lapilli with two phases: placement first, movement second
+2. Changed move interpretation so clicks mean place during phase one and select or move during phase two
+3. Added a reusable calculateWinner helper so both UI status and move validation can share the same win logic
+4. Added index-to-row-column conversion
+5. Added adjacency checking that allows horizontal, vertical, and diagonal one-step moves while disallowing staying on the same square
+6. Added a canMovePiece validation function that checks ownership, whether a destination is empty, adjacency, and special rule checks before any move is committed
+7. Added phase detection through checking piece count per player, so a player can place only while they have fewer than three pieces on the board
+8. Updated click handling so in movement phase a player first selects one of their pieces, then chooses a legal destination
+9. Added deselect feature when clicking the selected square again to prevent accidental moves
+10. Added reselect feature when clicking a different piece, so players can change their mind before moving
+11. Added the center-square restriction: if your piece is currently at center, your turn must either result in win or move that center piece out
+12. Implemented the center rule by simulating the candidate board state and checking whether the move wins before allowing center to remain occupied
+13. Added early return on winner state so no further placements or movements are accepted after the game is over
+14. Added turn-phase status text to guide players through place, select, and move actions depending on current context
+15. Added visual highlighting for the currently selected piece so users know if they selected a piece
