@@ -1,0 +1,18 @@
+1. Added function Board which displays a 3x3 board with squares numbered 1-9
+2. Added function Square and changed Board to display Square components
+3. Added value prop to Square to render different values on the squares
+4. Added click functionality to buttons, printing "clicked!" each time a square is clicked
+5. Added state to Square function, removed prop, and modified Board to display empty squares or an 'X' if clicked
+6. Added state in Board to track state of each square using an array
+7. Added back value prop to Square, receiving the value from Board to display
+8. Replaced onClick function in Square to function passed down from Board, which updates a square to display an X
+9. Added state to track whether X is next, and displayed O or X based on whether X is next
+10. Added early return to handleClick() so that existing squares were not overwritten if a player clicked on it
+11. Added function to calculate the winner and print out game status
+12. Added Game component to manage the game and track history
+13. Added xIsNext and history states to game to track the next player and the history
+14. Added function handlePlay() which sets the history and sets the next player
+15. Added moves variable which displays the history of moves and allows players to go back to a certain move by calling jumpTo()
+16. Implemented jumpTo() which allows players to go back to a certain moves
+17. Updated handlePlay() to only pass the history up until the current move so that when a player goes back in time, moves that occured after the current move does not show
+18. Removed state xIsNext, storing it as a variable instead. It is now determined through checking if currentMove is even
