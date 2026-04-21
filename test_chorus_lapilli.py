@@ -155,6 +155,70 @@ class TestChorusLapilli(unittest.TestCase):
         tiles[0].click()
         self.assertTileIs(tiles[0], self.SYMBOL_X)
 
+    def test_game_stops_after_win(self):
+        '''Check that no additional moves can be made after a player wins.'''
+        tiles = self.driver.find_elements(By.XPATH, self.BOARD_TILE_XPATH)
+
+        # Build a quick X win across the top row.
+        tiles[0].click()  # X
+        tiles[3].click()  # O
+        tiles[1].click()  # X
+        tiles[4].click()  # O
+        tiles[2].click()  # X wins
+
+        self.assertTileIs(tiles[0], self.SYMBOL_X)
+        self.assertTileIs(tiles[1], self.SYMBOL_X)
+        self.assertTileIs(tiles[2], self.SYMBOL_X)
+
+        # Clicking after the win should do nothing.
+        self.assertTileIs(tiles[8], self.SYMBOL_BLANK)
+        tiles[8].click()
+        self.assertTileIs(tiles[8], self.SYMBOL_BLANK)
+
+    def test_move_must_be_adjacent(self):
+        '''Check that movement phase only allows adjacent destination squares.'''
+        tiles = self.driver.find_elements(By.XPATH, self.BOARD_TILE_XPATH)
+
+        # Reach the movement phase without creating a winner.
+        tiles[0].click()  # X
+        tiles[4].click()  # O
+        tiles[8].click()  # X
+        tiles[1].click()  # O
+        tiles[6].click()  # X
+        tiles[2].click()  # O
+
+        self.assertTileIs(tiles[0], self.SYMBOL_X)
+        self.assertTileIs(tiles[5], self.SYMBOL_BLANK)
+
+        # Try to move X from tile 0 to non-adjacent tile 5.
+        tiles[0].click()
+        tiles[5].click()
+
+        self.assertTileIs(tiles[0], self.SYMBOL_X)
+        self.assertTileIs(tiles[5], self.SYMBOL_BLANK)
+
+    def test_center_piece_must_win_or_vacate(self):
+        '''Check that a piece in the center cannot stay there unless the move wins.'''
+        tiles = self.driver.find_elements(By.XPATH, self.BOARD_TILE_XPATH)
+
+        # Reach the movement phase with X occupying the center square.
+        tiles[4].click()  # X
+        tiles[0].click()  # O
+        tiles[8].click()  # X
+        tiles[1].click()  # O
+        tiles[2].click()  # X
+        tiles[3].click()  # O
+
+        self.assertTileIs(tiles[4], self.SYMBOL_X)
+        self.assertTileIs(tiles[7], self.SYMBOL_BLANK)
+
+        # Try to move a different X piece while the center piece remains in place.
+        tiles[8].click()
+        tiles[7].click()
+
+        self.assertTileIs(tiles[8], self.SYMBOL_X)
+        self.assertTileIs(tiles[7], self.SYMBOL_BLANK)
+
 
 # ================= [DO NOT MAKE ANY CHANGES BELOW THIS LINE] =================
 

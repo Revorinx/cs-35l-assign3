@@ -1,0 +1,6 @@
+1. Reworked the game rules so the board supports two phases: a placement phase where each player can place up to three pieces, and a movement phase that begins after all pieces have been placed
+2. Added helper functions to calculate a winner, convert board indexes into row and column coordinates, and check whether two squares are adjacent, so the movement rules could be enforced in one place
+3. Added movement validation so a player can only move one of their own pieces to an adjacent empty square, including diagonal movement
+4. Added the center-square restriction (if a player has a piece in the center square, that turn must either win immediately or move that center piece out of the center)
+5. Changed the board click behavior so the player can click one of their own pieces to select it during the movement phase and then click a legal destination square to complete the move
+6. Added a visual highlight for the selected piece and updated the status text so the game tells the player whether they should place, select, or move a piece
